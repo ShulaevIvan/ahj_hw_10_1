@@ -11,6 +11,7 @@ export default class Timeline {
         this.geolocation = undefined;
         this.popup = new Popup('.popup-warning');
         this.iconViewEvent = this.iconViewEvent.bind(this);
+        this.popupOkBtnEvent = this.popupOkBtnEvent.bind(this);
         this.hidePost = this.hidePost.bind(this);
         this.yandexStaticUrl = 'https://static-maps.yandex.ru/1.x/'
         this.keyboard.addEventListener('click', (e) => {
@@ -30,7 +31,7 @@ export default class Timeline {
                     this.keyboard.value = '';
                     return;
                 }
-                else if (this.validate && !this.geolocation) {
+                else if (this.validate && Object.keys(this.geolocation).length === 0) {
                     this.popup.show();
                     return;
                 }
@@ -41,11 +42,14 @@ export default class Timeline {
             }
         });
 
-        this.popup.okBtn.addEventListener('click', (e) => {
-            if (this.popup.userCords && this.popup.userCords !== undefined) {
-                this.createPost(this.keyboard.value, this.date, this.popup.userCords)
-            }
-        });
+        this.popup.okBtn.addEventListener('click', this.popupOkBtnEvent);
+    }
+
+    popupOkBtnEvent = (e) => {
+        if (this.popup.userCords && this.popup.userCords !== undefined) {
+            const date = new Date().toLocaleString('ru', { numeric:true });
+            this.createPost(this.keyboard.value, date, this.popup.userCords)
+        }
     }
 
     iconViewEvent(e) {
@@ -53,10 +57,21 @@ export default class Timeline {
         const text = post.querySelector('.post-text').textContent;
         const date = post.querySelector('.post-date').textContent;
         const cords = post.querySelector('.cords').querySelector('span').textContent;
+        let longitude = undefined;
+        let latitude = undefined;
+        if (this.popup.userCords !== undefined) {
+            longitude = this.popup.userCords.longitude;
+            latitude = this.popup.userCords.latitude;
+        }
+        else {
+            longitude = this.geolocation.longitude;
+            latitude = this.geolocation.latitude;
+        }
+       
         
 
-        this.urlIcon = `pt=${this.geolocation.longitude},${this.geolocation.latitude}`
-        this.imgUrl = `${this.yandexStaticUrl}?ll=${this.geolocation.longitude},${this.geolocation.latitude}&z=15&size=450,450&l=map&${this.urlIcon}`
+        this.urlIcon = `pt=${longitude},${latitude}`
+        this.imgUrl = `${this.yandexStaticUrl}?ll=${longitude},${latitude}&z=15&size=450,450&l=map&${this.urlIcon}`
         const postData = {
             text: text,
             date: date,
@@ -64,10 +79,6 @@ export default class Timeline {
             map: this.imgUrl
         }
         this.viewPost(postData);
-    }
-
-    getMap() {
-       
     }
 
 
@@ -85,7 +96,7 @@ export default class Timeline {
                 }
             }, this.geUserGeoErr, { enableHighAccuracy: true });
         }
-        this.geolocation = false;
+        this.geolocation = {};
     }
 
     geUserGeoErr(err) {

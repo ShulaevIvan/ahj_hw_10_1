@@ -178,7 +178,6 @@ input, textarea {
 .popup-post-wrap {
     flex-direction: column;
     justify-content: center;
-    align-items: center;
     position: absolute;
     max-width: 600px;
     width: 100%;
