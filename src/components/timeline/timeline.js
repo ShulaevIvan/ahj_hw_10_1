@@ -1,36 +1,58 @@
 
-import Popup from "../popup/popup";
+import Popup from '../popup/popup';
+
 export default class Timeline {
     constructor(timelineTag) {
         this.timeLineContainer = document.querySelector(timelineTag);
         this.timeLineUl = this.timeLineContainer.querySelector('.timeline');
         this.keyboard = this.timeLineContainer.querySelector('.keyboard');
-        this.checkGeolocation = undefined;
-        this.popup = undefined;
+        this.geolocation = undefined;
+        this.popup = new Popup('.popup-warning');
+        this.iconViewEvent = this.iconViewEvent.bind(this);
+        this.yandexStaticUrl = 'https://static-maps.yandex.ru/1.x/'
+        this.keyboard.addEventListener('click', (e) => {
+            e.target.value = '';
+        });
 
         this.keyboard.addEventListener('keyup', (e) => {
             this.key = e.key;
             if (this.key === 'Enter') {
                 this.keyboard.classList.remove('inputErr');
                 this.validate = this.validateKeyboard(this.keyboard.value.trim());
-                if (this.validate &&  this.checkGeolocation.latitude) {
+                if (this.validate &&  this.geolocation.latitude) {
                     this.date = new Date().toLocaleString('ru', { numeric:true });
-                    this.createPost(this.keyboard.value, this.date, this.checkGeolocation);
+                    this.createPost(this.keyboard.value, this.date, this.geolocation);
                     this.keyboard.value = '';
                     return;
                 }
-                else if (this.validate && !this.checkGeolocation) {
+                else if (this.validate && !this.geolocation) {
                     this.popup.show();
                     return;
                 }
                 else if (!this.validate) {
-                    console.log(this.keyboard)
                     this.keyboard.classList.add('inputErr');
                     return;
                 }
             }
         });
+
+        this.popup.okBtn.addEventListener('click', (e) => {
+            if (this.popup.userCords && this.popup.userCords !== undefined) {
+                this.createPost(this.keyboard.value, this.date, this.popup.userCords)
+            }
+        });
     }
+
+    iconViewEvent(e) {
+        this.urlIcon = `pt=${this.geolocation.longitude},${this.geolocation.latitude}`
+        this.imgUrl = `${this.yandexStaticUrl}?ll=${this.geolocation.longitude},${this.geolocation.latitude}&z=15&size=450,450&l=map&${this.urlIcon}`
+        console.log(this.imgUrl)
+    }
+
+    getMap() {
+       
+    }
+
 
     validateKeyboard(text) {
         this.text = text;
@@ -40,13 +62,13 @@ export default class Timeline {
     getUserGeo() {
         if (navigator.geolocation){
             navigator.geolocation.getCurrentPosition((data) => {
-                this.checkGeolocation = {
+                this.geolocation = {
+                    longitude: data.coords.longitude,
                     latitude: data.coords.latitude,
-                    longitude: data.coords.longitude
                 }
             }, this.geUserGeoErr, { enableHighAccuracy: true });
         }
-        this.checkGeolocation = false;
+        this.geolocation = false;
     }
 
     geUserGeoErr(err) {
@@ -69,6 +91,7 @@ export default class Timeline {
         postDate.classList.add('post-date')
         postText.classList.add('post-text');
         post.classList.add('post');
+        cordsIcon.addEventListener('click', this.iconViewEvent);
         cords.appendChild(cordinate);
         cords.appendChild(cordsIcon);
         post.appendChild(postText);
