@@ -174,3 +174,50 @@ input, textarea {
 .inputErr {
     border: 1px solid red;
 }
+
+.popup-post-wrap {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    max-width: 600px;
+    width: 100%;
+    border: 1px solid;
+    border-radius: 10px;
+}
+.popup-post-body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 20px;
+}
+.popup-post-date, .popup-post-text, .popup-post-map, .popup-post-cords {
+    width: 100%;
+    margin-bottom: 20px;
+}
+.popup-post-map {
+    width: 100%;
+}
+.popup-post-map img {
+    min-width: 200px;
+    min-height: 200px;
+    width: 100%;
+}
+.popup-post-rm-btn {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 18px;
+    position: relative;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+}
+.popup-post-rm-btn::before {
+    content: '\274C';
+}
+.viewPost {
+    display: flex;
+}
+.hidePost {
+    display: none;
+}
