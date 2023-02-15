@@ -16,7 +16,8 @@ export default class Timeline {
     this.yandexStaticUrl = 'https://static-maps.yandex.ru/1.x/';
 
     this.keyboard.addEventListener('click', (e) => {
-      this.getUserGeo();
+      if (!this.geolocation) this.getUserGeo();
+      
       e.target.value = '';
     });
 
