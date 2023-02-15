@@ -17,7 +17,6 @@ export default class Timeline {
 
     this.keyboard.addEventListener('click', (e) => {
       if (!this.geolocation) this.getUserGeo();
-      
       e.target.value = '';
     });
 
