@@ -33,7 +33,6 @@
   },
   "dependencies": {
     "core-js": "^3.27.2",
-    "jsdom": "^21.1.0",
-    "push-dir": "^0.4.1"
+    "jsdom": "^21.1.0"
   }
 }
