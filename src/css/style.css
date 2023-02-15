@@ -39,7 +39,7 @@ input, textarea {
     width: 30px;
     height: 30px;
     background: white;
-    border: 1px solid #4e5ed3;
+    border: 1px solid #333;
     /* box-shadow: 3px 3px 0px #bab5f8;
     box-shadow: 3px 3px 0px #bab5f8; */
     border-radius: 50%;
@@ -50,7 +50,7 @@ input, textarea {
 
 .timeline li {
     padding-bottom: 1.5rem;
-    border-left: 10px solid #abaaed;
+    border-left: 10px solid #333;
     position: relative;
     padding-left: 30px;
 }
@@ -72,17 +72,20 @@ input, textarea {
     overflow: hidden;
     max-height: 35px;
 }
+
 .post-date {
     display: flex;
     justify-content: flex-end;
     align-items: flex-start;
     width: 25%;
     margin-bottom: 20px;
+    color: green;
 }
 .cords {
     bottom: 25px;
     position: absolute;
     width: 100%;
+    color: brown;
 }
 .cords-icon::before {
     content: '\1F441';
@@ -90,6 +93,7 @@ input, textarea {
 }
 .cords-icon {
     margin-left: 5px;
+    color: black;
 }
 .input-container {
     width: 100%;
@@ -118,6 +122,7 @@ input, textarea {
     width: 100%;
     border: 1px solid;
     border-radius: 10px;
+    background-color: white;
 }
 
 .popup-warning-body {
@@ -179,10 +184,13 @@ input, textarea {
     flex-direction: column;
     justify-content: center;
     position: absolute;
+    top: 15px;
+    left: 15%;
     max-width: 600px;
     width: 100%;
     border: 1px solid;
     border-radius: 10px;
+    background-color: white;
 }
 .popup-post-body {
     display: flex;
@@ -194,6 +202,9 @@ input, textarea {
     width: 100%;
     margin-bottom: 20px;
 }
+.popup-post-cords {
+    color: brown;
+}
 .popup-post-map {
     width: 100%;
 }
@@ -201,6 +212,7 @@ input, textarea {
     min-width: 200px;
     min-height: 200px;
     width: 100%;
+    filter: brightness(0.9);
 }
 .popup-post-rm-btn {
     display: flex;
@@ -219,4 +231,7 @@ input, textarea {
 }
 .hidePost {
     display: none;
+}
+.popup-post-date {
+    color: green;
 }
