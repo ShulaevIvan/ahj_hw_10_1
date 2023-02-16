@@ -1,0 +1,237 @@
+body {
+    box-sizing: border-box;
+    max-width: 1170px;
+    padding-left: 16px;
+    padding-right: 16px;
+    margin: 0 auto;
+}
+input, textarea {
+    all: unset;
+    border: 1px solid;
+}
+.app-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 900px;
+}
+.timeline-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.timeline {
+    list-style: none;
+    margin-top: 2rem;
+    flex-direction: column-reverse;
+    display: flex;
+    border-radius: 12px;
+    position: relative;
+}
+
+.timeline li::before {
+    content: "";
+    width: 30px;
+    height: 30px;
+    background: white;
+    border: 1px solid #333;
+    /* box-shadow: 3px 3px 0px #bab5f8;
+    box-shadow: 3px 3px 0px #bab5f8; */
+    border-radius: 50%;
+    position: absolute;
+    left: -21px;
+    top: 0px;
+}
+
+.timeline li {
+    padding-bottom: 1.5rem;
+    border-left: 10px solid #333;
+    position: relative;
+    padding-left: 30px;
+}
+
+.post {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    border: 1px solid;
+    min-height: 75px;
+    padding: 10px;
+    border-radius: 10px;
+}
+.post-text {
+    display: flex;
+    width: 70%;
+    margin-bottom: 20px;
+    min-width: 400px;
+    overflow: hidden;
+    max-height: 35px;
+}
+
+.post-date {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    width: 25%;
+    margin-bottom: 20px;
+    color: green;
+}
+.cords {
+    bottom: 25px;
+    position: absolute;
+    width: 100%;
+    color: brown;
+}
+.cords-icon::before {
+    content: '\1F441';
+    cursor: pointer;
+}
+.cords-icon {
+    margin-left: 5px;
+    color: black;
+}
+.input-container {
+    width: 100%;
+}
+.keyboard {
+    width: 50%;
+    margin-left: 11%;
+    min-height: 30px;
+}
+
+.input-wrap {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.popup-warning {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    max-width: 600px;
+    width: 100%;
+    border: 1px solid;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.popup-warning-body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 20px;
+}
+.popup-warning-title, 
+.popup-warning-text, 
+.popup-warning-subtitle, 
+.popup-warning-input-wrap,
+.popup-warning-input {
+    margin-bottom: 20px;
+}
+.popup-warning-input-wrap, .popup-warning-input, .popup-warning-button-block {
+    width: 100%;
+}
+.popup-input {
+    min-height: 30px;
+    width: 98.5%;
+    min-height: 30px;
+}
+.popup-warning-button-block {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+.popup-warning-cancel {
+    margin-right: 1%;
+    min-width: 80px;
+    min-height: 40px;
+    border-radius: 10px;
+    border-width: 1px;
+}
+.popup-warning-ok {
+    border-width: 1px;
+    margin-left: 1%;
+    min-width: 80px;
+    min-height: 40px;
+    border-radius: 10px;
+}
+
+.hidden {
+    width: 0px;
+    opacity: 0;
+    height: 0;
+}
+
+.show {
+    display: flex;
+}
+.inputErr {
+    border: 1px solid red;
+}
+
+.popup-post-wrap {
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top: 15px;
+    left: 15%;
+    max-width: 600px;
+    width: 100%;
+    border: 1px solid;
+    border-radius: 10px;
+    background-color: white;
+}
+.popup-post-body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 20px;
+}
+.popup-post-date, .popup-post-text, .popup-post-map, .popup-post-cords {
+    width: 100%;
+    margin-bottom: 20px;
+}
+.popup-post-cords {
+    color: brown;
+}
+.popup-post-map {
+    width: 100%;
+}
+.popup-post-map img {
+    min-width: 200px;
+    min-height: 200px;
+    width: 100%;
+    filter: brightness(0.9);
+}
+.popup-post-rm-btn {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 18px;
+    position: relative;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+}
+.popup-post-rm-btn::before {
+    content: '\274C';
+}
+.viewPost {
+    display: flex;
+}
+.hidePost {
+    display: none;
+}
+.popup-post-date {
+    color: green;
+}
