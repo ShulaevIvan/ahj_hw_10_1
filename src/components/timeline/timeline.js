@@ -7,13 +7,26 @@ export default class Timeline {
     this.closePostWindow = document.querySelector('.popup-post-rm-btn');
     this.timeLineUl = this.timeLineContainer.querySelector('.timeline');
     this.keyboard = this.timeLineContainer.querySelector('.keyboard');
+    this.microfoneBtn = this.timeLineContainer.querySelector('.microfone-icon');
+    this.microfoneOkBtn = this.timeLineContainer.querySelector('.microfone-ok-btn');
+    this.microfoneCancelBtn = this.timeLineContainer.querySelector('.microfone-cancel-btn');
     this.geolocation = undefined;
+    this.soundController = undefined;
+    this.soundStream = undefined;
     this.popup = new Popup('.popup-warning');
     this.iconViewEvent = this.iconViewEvent.bind(this);
     this.popupOkBtnEvent = this.popupOkBtnEvent.bind(this);
     this.validateCords = this.validateCords.bind(this);
+    this.microfoneClickEvent = this.microfoneClickEvent.bind(this);
+    this.microfoneCancelEvent = this.microfoneCancelEvent.bind(this);
+    this.microfoneOkEvent = this.microfoneOkEvent.bind(this);
     this.hidePost = this.hidePost.bind(this);
     this.yandexStaticUrl = 'https://static-maps.yandex.ru/1.x/';
+
+    this.microfoneBtn.addEventListener('click', this.microfoneClickEvent);
+    this.microfoneBtn.setAttribute('status', 'deactivated');
+    this.microfoneCancelBtn.addEventListener('click', this.microfoneCancelEvent);
+    this.microfoneOkBtn.addEventListener('click',this.microfoneOkEvent);
 
     this.keyboard.addEventListener('click', (e) => {
       if (!this.geolocation) this.getUserGeo();
@@ -23,6 +36,69 @@ export default class Timeline {
     this.closePostWindow.addEventListener('click', this.hidePost);
     this.keyboard.addEventListener('keyup', this.validateCords);
     this.popup.okBtn.addEventListener('click', this.popupOkBtnEvent);
+  }
+
+  microfoneClickEvent = async (e) => {
+    this.target = e.target;
+    const micStatus = this.target.getAttribute('status');
+    if (micStatus === 'deactivated') {
+      this.microfoneCancelBtn.classList.add('show-mic');
+      this.microfoneCancelBtn.classList.remove('hide-mic');
+      this.microfoneOkBtn.classList.add('show-mic');
+      this.microfoneOkBtn.classList.remove('hide-mic');
+      this.microfoneBtn.classList.add('hide-mic');
+      this.microfoneBtn.classList.remove('show-mic');
+      this.target.setAttribute('status', 'active');
+      this.soundStream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+      });
+      this.soundController = new MediaRecorder(this.soundStream);
+      const chunks = [];
+      this.soundController.addEventListener("start", () => {
+        console.log("start");
+      });
+      this.soundController.addEventListener("dataavailable", (event) => {
+        chunks.push(event.data);
+      });
+      this.soundController.addEventListener("stop", () => {
+        const blob = new Blob(chunks);
+        const audioData = URL.createObjectURL(blob);
+        this.createAudioPost(audioData)
+      });
+      this.soundController.start();
+    }
+  }
+
+  microfoneOkEvent = async (e) => {
+    this.target = e.target;
+    const micTag = this.target.parentNode.querySelector('.microfone-icon');
+    const micStatus = micTag.getAttribute('status');
+    if (micStatus === 'active') {
+      this.microfoneCancelBtn.classList.remove('show-mic');
+      this.microfoneCancelBtn.classList.add('hide-mic');
+      this.microfoneOkBtn.classList.remove('show-mic');
+      this.microfoneOkBtn.classList.add('hide-mic');
+      this.microfoneBtn.classList.add('show-mic');
+      micTag.setAttribute('status', 'deactivated');
+      this.microfoneBtn.classList.add('show-mic');
+      this.soundController.stop();
+    }
+  }
+
+  microfoneCancelEvent = async (e) => {
+    this.target = e.target;
+    const micTag = this.target.parentNode.querySelector('.microfone-icon');
+    const micStatus = micTag.getAttribute('status');
+    if (micStatus === 'active') {
+      this.microfoneCancelBtn.classList.remove('show-mic');
+      this.microfoneCancelBtn.classList.add('hide-mic');
+      this.microfoneOkBtn.classList.remove('show-mic');
+      this.microfoneOkBtn.classList.add('hide-mic');
+      this.microfoneBtn.classList.add('show-mic');
+      micTag.setAttribute('status', 'deactivated');
+      this.microfoneBtn.classList.add('show-mic');
+      console.log(this.soundController)
+    }
   }
 
   popupOkBtnEvent = (e) => {
@@ -151,4 +227,21 @@ export default class Timeline {
     li.appendChild(post);
     this.timeLineUl.appendChild(li);
   }
+
+  createAudioPost(audioData) {
+    const li = document.createElement('li');
+    const post = document.createElement('div');
+    const audio = document.createElement('audio');
+    const postDate = document.createElement('div');
+    postDate.textContent = new Date().toLocaleString('ru', { numeric: true });
+    postDate.classList.add('post-date');
+    post.classList.add('post');
+    audio.setAttribute('controls', '');
+    audio.src = audioData;
+    post.appendChild(postDate);
+    post.appendChild(audio);
+    li.appendChild(post);
+    this.timeLineUl.appendChild(li);
+  }
+
 }

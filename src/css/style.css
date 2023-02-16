@@ -110,6 +110,7 @@ input, textarea {
     width: 100%;
     align-items: center;
     flex-wrap: wrap;
+    position: relative;
 }
 
 .popup-warning {
@@ -234,4 +235,40 @@ input, textarea {
 }
 .popup-post-date {
     color: green;
+}
+.microfone-icon::before {
+    content: '\1F399';
+    position: absolute;
+    top: 20%;
+    left: 75%;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.microfone-ok-btn::before {
+    content: '\2713';
+    cursor: pointer;
+    position: absolute;
+    left: 65%;
+    top: 25%;
+    font-size: 24px;
+}
+.microfone-cancel-btn::before {
+    content: '\274C';
+    cursor: pointer;
+    position: absolute;
+    left: 75%;
+    top: 25%;
+    font-size: 24px;
+}
+.hide-mic {
+    display: none;
+}
+
+.show-mic {
+    display: flex;
+}
+.post audio {
+    min-width: 300px;
+    width: 100%;
 }
