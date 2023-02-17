@@ -41,10 +41,9 @@ export default class Popup {
 
   validateInput(text) {
     const clearStr = [];
-    Array.from(text).forEach((i) => {
+    Array.from(text.trim()).forEach((i) => {
       // eslint-disable-next-line
       if (i !== ' ' || i !== '' || typeof(i) !== 'number') clearStr.push(i);
-      console.log(clearStr)
     });
     this.cords = clearStr.join('').replace('[', '').replace(']', '');
     // eslint-disable-next-line

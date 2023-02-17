@@ -15,11 +15,11 @@ test('validate userInput', () => {
   const type6 = timeLine.popup.validateInput('[12.3, 11.533]');
 
   expect(type1).toBe('12.332,15.51');
-  expect(type2).toBe('12.3, 15.52');
-//   expect(type3).toBe(false);
-//   expect(type4).toBe(false);
-//   expect(type5).toBe(false);
-//   expect(type6).toBe('12.3,11.533');
+  expect(type2).toBe('12.3, 5.52');
+  expect(type3).toBe(false);
+  expect(type4).toBe(false);
+  expect(type5).toBe(false);
+  expect(type6).toBe('12.3, 11.533');
 });
 
 document.body.innerHTML = ` 
