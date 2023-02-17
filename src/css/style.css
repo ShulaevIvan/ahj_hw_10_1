@@ -80,6 +80,7 @@ input, textarea {
     width: 25%;
     margin-bottom: 20px;
     color: green;
+    min-width: 150px;
 }
 .cords {
     bottom: 25px;
@@ -261,6 +262,17 @@ input, textarea {
     top: 25%;
     font-size: 24px;
 }
+.microfone-timer {
+    position: absolute;
+    left: 68%;
+    top: 31%;
+    font-size: 20px;
+}
+.microfone-timer-minutes::after {
+    content: ':';
+    padding: 0 2px;
+}
+
 .hide-mic {
     display: none;
 }
@@ -271,4 +283,8 @@ input, textarea {
 .post audio {
     min-width: 300px;
     width: 100%;
+    margin-bottom: 20px;
+}
+.post-date-audio {
+    width: 96.5%;
 }

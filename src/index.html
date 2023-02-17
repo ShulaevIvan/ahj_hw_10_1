@@ -20,6 +20,10 @@
                 <textarea type="text" class="keyboard"  placeholder="enter your text here"></textarea>
                 <span class="microfone-icon"></span>
                 <span class="microfone-ok-btn hide-mic"></span>
+                <span class="microfone-timer hide-mic">
+                    <span class="microfone-timer-minutes">00</span>
+                    <span class="microfone-timer-seconds">00</span>
+                </span>
                 <span class="microfone-cancel-btn hide-mic"></span>
             </div>
         </div>
@@ -27,7 +31,7 @@
 
     <!-- app end -->
 
-    <div class="popup-warning hidden">
+    <div class="popup-warning hidden" audio="false">
         <div class="popup-warning-body">
             <div class="popup-warning-title">Что-то пошло не так</div>
             <div class="popup-warning-text">
@@ -49,8 +53,6 @@
     </div>
 
     <!-- popup warning end -->
-
-
 
     <div class="popup-post-wrap hidePost">
         <span class="popup-post-rm-btn"></span>

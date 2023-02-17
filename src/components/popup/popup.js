@@ -21,16 +21,18 @@ export default class Popup {
     this.checkInput = this.validateInput(this.value);
     if (this.checkInput) {
       this.hide();
-      this.popupInput.value = '';
       this.retObj = {
         latitude: this.checkInput.split(',')[0],
         longitude: this.checkInput.split(',')[1],
       };
       this.userCords = this.retObj;
     } else {
+      const audio = this.popup.getAttribute('audio');
+      if (audio === 'false') this.popupInput.value = '';
       this.popupInput.classList.add('inputErr');
       this.popupInput.value = 'пример кординат 12.xx, 19.xxxxxxx';
     }
+
   };
 
   clearInput = () => {
@@ -41,7 +43,7 @@ export default class Popup {
   validateInput(text) {
     const clearStr = [];
     Array.from(text).forEach((i) => {
-      if (i !== ' ') clearStr.push(i);
+      if (i !== ' ' || i != '' && typeof(i) === 'number') clearStr.push(i);
     });
     this.cords = clearStr.join('').replace('[', '').replace(']', '');
     // eslint-disable-next-line
@@ -49,6 +51,7 @@ export default class Popup {
     if (this.pattern.test(this.cords)) {
       return this.cords;
     }
+    this.userCords = undefined;
     return false;
   }
 
@@ -63,6 +66,7 @@ export default class Popup {
 
   hide() {
     if (this.popup.classList.contains('show')) {
+      this.popupInput.value = '';
       this.popup.classList.remove('hidden');
       this.popup.classList.add('hidden');
     }
