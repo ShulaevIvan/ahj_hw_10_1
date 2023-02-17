@@ -30,13 +30,12 @@ export default class Timeline {
     this.microfoneBtn.addEventListener('click', this.microfoneClickEvent);
     this.microfoneBtn.setAttribute('status', 'deactivated');
     this.microfoneCancelBtn.addEventListener('click', this.microfoneCancelEvent);
-    this.microfoneOkBtn.addEventListener('click',this.microfoneOkEvent);
+    this.microfoneOkBtn.addEventListener('click', this.microfoneOkEvent);
 
     this.keyboard.addEventListener('click', (e) => {
       if (!this.geolocation) this.getUserGeo();
       e.target.value = '';
     });
-
     this.closePostWindow.addEventListener('click', this.hidePost);
     this.keyboard.addEventListener('keyup', this.validateCords);
     this.popup.okBtn.addEventListener('click', this.popupOkBtnEvent);
@@ -61,31 +60,26 @@ export default class Timeline {
         audio: true,
       });
       this.soundController = new MediaRecorder(this.soundStream);
-      const chunks = [];
-      this.soundController.addEventListener("start", () => {
-        console.log("start");
+      const soundByteArr = [];
+      this.soundController.addEventListener('dataavailable', (event) => {
+        soundByteArr.push(event.data);
       });
-      this.soundController.addEventListener("dataavailable", (event) => {
-        chunks.push(event.data);
-      });
-      this.soundController.addEventListener("stop", () => {
-        const blob = new Blob(chunks);
+      this.soundController.addEventListener('stop', () => {
+        const blob = new Blob(soundByteArr);
         this.soundData = URL.createObjectURL(blob);
         if (Object.keys(this.geolocation).length === 0) {
           const position = e.target.getBoundingClientRect();
           this.popup.popup.setAttribute('audio', 'true');
-          this.popup.show(position)
-        }
-        else {
+          this.popup.show(position);
+        } else {
           this.createAudioPost(this.soundData, this.geolocation);
         }
-        
       });
       this.soundController.start();
       clearInterval(this.microfoneTimerInterval);
       this.microfoneTimerFunc();
     }
-  }
+  };
 
   microfoneOkEvent = async (e) => {
     this.target = e.target;
@@ -104,7 +98,7 @@ export default class Timeline {
       this.soundController.stop();
       this.popup.popup.setAttribute('audio', 'false');
     }
-  }
+  };
 
   microfoneCancelEvent = async (e) => {
     this.target = e.target;
@@ -123,7 +117,7 @@ export default class Timeline {
       this.microfoneTimer.classList.remove('show-mic');
       this.microfoneTimer.classList.add('hide-mic');
     }
-  }
+  };
 
   microfoneTimerFunc() {
     const secondsTag = this.timeLineContainer.querySelector('.microfone-timer-seconds');
@@ -134,11 +128,11 @@ export default class Timeline {
     secondsTag.textContent = '00';
     minutesTag.textContent = '00';
     this.microfoneTimerInterval = setInterval(() => {
-      seconds += 1
+      seconds += 1;
       if (seconds === 60) {
         minutes += 1;
         seconds = 0;
-      } 
+      }
       if (seconds > 9 || minutes > 9) zero = false;
       if (zero) {
         secondsTag.textContent = `0${seconds}`;
@@ -147,7 +141,7 @@ export default class Timeline {
         secondsTag.textContent = `${seconds}`;
         minutesTag.textContent = `0${minutes}`;
       }
-    }, 1000)
+    }, 1000);
   }
 
   popupOkBtnEvent = (e) => {
@@ -156,12 +150,11 @@ export default class Timeline {
       const date = new Date().toLocaleString('ru', { numeric: true });
       this.createPost(this.keyboard.value, date, this.popup.userCords);
       this.keyboard.value = '';
-    }
-    else if(param === 'true' && this.popup.userCords && this.popup.userCords !== undefined) {
+    } else if (param === 'true' && this.popup.userCords && this.popup.userCords !== undefined) {
       const cords = {
         latitude: this.popup.userCords.latitude,
-        longitude: this.popup.userCords.longitude
-      }
+        longitude: this.popup.userCords.longitude,
+      };
       this.createAudioPost(this.soundData, cords);
       this.keyboard.value = '';
     }
@@ -224,7 +217,6 @@ export default class Timeline {
     }
   }
 
-
   getUserGeo() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((data) => {
@@ -238,7 +230,7 @@ export default class Timeline {
   }
 
   geUserGeoErr(err) {
-    console.log('err get cords');
+    console.log(err)
   }
 
   viewPost(position, data = undefined) {
@@ -310,7 +302,7 @@ export default class Timeline {
     audio.setAttribute('controls', '');
     cordsIcon.addEventListener('click', this.iconViewEvent);
     audio.src = audioData;
-    cordinate.textContent =`[${cordObj.latitude},  ${cordObj.longitude}]`;
+    cordinate.textContent = `[${cordObj.latitude},  ${cordObj.longitude}]`;
     cords.appendChild(cordinate);
     cords.appendChild(cordsIcon);
     post.appendChild(postDate);
@@ -319,5 +311,4 @@ export default class Timeline {
     li.appendChild(post);
     this.timeLineUl.appendChild(li);
   }
-
 }

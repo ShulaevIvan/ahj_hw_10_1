@@ -32,7 +32,6 @@ export default class Popup {
       this.popupInput.classList.add('inputErr');
       this.popupInput.value = 'пример кординат 12.xx, 19.xxxxxxx';
     }
-
   };
 
   clearInput = () => {
@@ -43,11 +42,13 @@ export default class Popup {
   validateInput(text) {
     const clearStr = [];
     Array.from(text).forEach((i) => {
-      if (i !== ' ' || i != '' && typeof(i) === 'number') clearStr.push(i);
+      // eslint-disable-next-line
+      if (i !== ' ' || i !== '' || typeof(i) !== 'number') clearStr.push(i);
+      console.log(clearStr)
     });
     this.cords = clearStr.join('').replace('[', '').replace(']', '');
     // eslint-disable-next-line
-    this.pattern = /\d+\.\d+\,\d+\.\d+/;
+    this.pattern = /\d+\.\d+\,(\s|\d)\d+\.\d+/;
     if (this.pattern.test(this.cords)) {
       return this.cords;
     }
