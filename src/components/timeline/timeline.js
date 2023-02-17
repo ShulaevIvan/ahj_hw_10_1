@@ -228,9 +228,8 @@ export default class Timeline {
     }
     this.geolocation = {};
   }
-
+  // eslint-disable-next-line
   geUserGeoErr(err) {
-    console.log(err)
   }
 
   viewPost(position, data = undefined) {
